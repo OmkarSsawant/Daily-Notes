@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements OnTaskStatusUpdat
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View _) {
-                Task todo = new Task(task_ET.getText().toString(),false);
+                String text = task_ET.getText().toString();
+                if(text.isEmpty()) return;
+                Task todo = new Task(text,false);
                 repo.addTask(todo, new ResultCallback<Long>() {
                     @Override
                     void onSuccess(Long inserted_id) {
