@@ -2,4 +2,7 @@
     <string name="app_name">Daily Notes</string>
     <string name="add_todo">Add Task</string>
     <string name="enter_task">Enter Task</string>
+    <string name="show_all">show All</string>
+    <string name="completed">completed</string>
+    <string name="incomplete">incomplete</string>
 </resources>

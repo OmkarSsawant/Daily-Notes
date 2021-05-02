@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -13,6 +14,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class TaskListAdapter extends BaseAdapter {
+    OnTaskStatusUpdate mListener;
+    public TaskListAdapter(OnTaskStatusUpdate listener){
+        mListener = listener;
+    }
+
    final ArrayList<Task> _tasks = new ArrayList<>();
     @Override
     public int getCount() {
@@ -40,7 +46,17 @@ public class TaskListAdapter extends BaseAdapter {
         TaskViewHolder vh = (TaskViewHolder) convertView.getTag();
         vh.taskTV.setText(getItem(position).mTask);
         vh.isDoneTV.setChecked(getItem(position).isDone);
+        vh.isDoneTV.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mListener.onTaskUpdate(position,isChecked);
+            }
+        });
         return vh.view;
+    }
+    void clearAll(){
+    _tasks.clear();
+    notifyDataSetChanged();
     }
 
     void addTask(Task t){
