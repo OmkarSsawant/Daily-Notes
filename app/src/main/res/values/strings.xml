@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Daily Notes</string>
+    <string name="add_todo">Add Task</string>
+    <string name="enter_task">Enter Task</string>
+</resources>
