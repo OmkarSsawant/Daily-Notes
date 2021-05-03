@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,24 +16,28 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnTaskStatusUpdate {
 
     private TaskListAdapter adapter;
     private TaskRepo repo;
+    TaskDatabase tskDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tskDB = new TaskDatabase(this,"task.db", null, 1);
 
         Toolbar tb = findViewById(R.id.toolbar);
         setupMenu(tb);
 
+
         DailyNoteApplication app = (DailyNoteApplication) getApplication() ;
 
 
-
-        repo = new TaskRepo(this,app.exService,app.mainUIUpdater);
+        repo = new TaskRepo(this,app.exService,app.mainUIUpdater,tskDB);
         final ListView lv  = findViewById(R.id.task_list);
         adapter = new TaskListAdapter(this);
         lv.setAdapter(adapter);
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnTaskStatusUpdat
             void onSuccess(ArrayList<Task> res) {
                 for(Task t : res){
                     adapter.addTask(t);
+                    Log.d(TAG, "onSuccess: "+t);
                 }
             }
 
@@ -129,5 +135,13 @@ public class MainActivity extends AppCompatActivity implements OnTaskStatusUpdat
                 super.onFail();
             }
         });
+    }
+
+     static final String TAG = "MainActivity";
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        tskDB.close();
     }
 }

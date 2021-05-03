@@ -1,6 +1,7 @@
 package com.college.miniProject1;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,10 +47,10 @@ public class TaskListAdapter extends BaseAdapter {
         TaskViewHolder vh = (TaskViewHolder) convertView.getTag();
         vh.taskTV.setText(getItem(position).mTask);
         vh.isDoneTV.setChecked(getItem(position).isDone);
-        vh.isDoneTV.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        vh.isDoneTV.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mListener.onTaskUpdate(position,isChecked);
+            public void onClick(View v){
+                mListener.onTaskUpdate(position,vh.isDoneTV.isChecked());
             }
         });
         return vh.view;

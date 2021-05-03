@@ -17,8 +17,8 @@ public class TaskRepo {
     final Executor background;
     final Handler mainThread;
 
-    public TaskRepo(Context context, Executor executor, Handler mainPoster) {
-        tdb = new TaskDatabase(context, "task.db", null, 1);
+    public TaskRepo(Context context, Executor executor, Handler mainPoster,TaskDatabase tdb) {
+        this.tdb = tdb;
         db = tdb.getWritableDatabase();
         background = executor;
         mainThread = mainPoster;

@@ -10,6 +10,11 @@ public class Task {
         this.isDone = isDone;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "mTask='" + mTask + '\'' +
+                ", isDone=" + isDone +
+                '}';
     }
+}
